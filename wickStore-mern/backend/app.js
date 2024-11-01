@@ -9,7 +9,7 @@ const app = express();
 
 // config
 if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config({ path: 'backend/config/config.env' });
+    require('dotenv').config({ path: 'backend/config/.env' });
 }
 
 app.use(morgan('tiny'));

@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 Set the strict query mode, which defines how strictly mongoose should apply filters
 when querying the database. Adjust this setting based on application requirements.
 */
-mongoose.set('strictQuery', false);
+mongoose.set('strictQuery', true);
 
 /* 
 Define a function to connect to the MongoDB database. This function uses
@@ -28,6 +28,7 @@ const connectDatabase = () => {
         process.exit(1);
     });
 };
+
 
 /* Export the connectDatabase function for use in other parts of the application */
 module.exports = connectDatabase;
