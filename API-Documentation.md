@@ -1,9 +1,9 @@
 ### API Documentation Structure
 
 #### 1. **API Overview**
-- **Title**: eCommerce API
+- **Title**: wickStore eCommerce API
 - **Version**: v1.0
-- **Base URL**: `http://localhost:5000/api/v1`
+- **Base URL**: `http://localhost:4000/api/v1`
 - **Description**: This API enables managing users, products, and orders for an eCommerce platform.
 
 #### 2. **Authentication**
@@ -139,4 +139,3 @@
     - `user`: ObjectId, ref: "User", required
     - `totalPrice`: Number, required, default: 0
 
-This structure covers the essential components of your API documentation. You can expand on each endpoint and model as needed, including more detailed examples and error responses. Let me know if you need further assistance or more details on any specific part!
