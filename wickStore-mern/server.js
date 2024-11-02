@@ -2,8 +2,8 @@ const path = require('path'); // Core module for handling and transforming file 
 const express = require('express'); // Express framework for creating the server
 const cloudinary = require('cloudinary'); // Cloudinary for handling image uploads
 const app = require('./backend/app'); // Import the main Express application
-const connectDatabase = require('./backend/config/database'); // Database connection function
-const PORT = process.env.PORT || 5000; // Server port from environment variables or default to 4000
+const connectDB = require('./backend/config/database'); // Database connection function
+const PORT = process.env.PORT || 5000; // Server port from environment variables or default to 5000
 
 /*
 Handle uncaught exceptions to prevent server crashes from unexpected errors.
@@ -15,7 +15,7 @@ process.on('uncaughtException', (err) => {
 });
 
 // Connect to MongoDB database
-connectDatabase();
+connectDB();
 
 /*
 Configure Cloudinary settings using environment variables to set the cloud name, API key, and secret.

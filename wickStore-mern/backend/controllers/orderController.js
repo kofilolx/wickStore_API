@@ -133,8 +133,19 @@ exports.updateOrder = asyncErrorHandler(async (req, res, next) => {
 });
 
 async function updateStock(id, quantity) {
+    // Find the product by its ID in the database
     const product = await Product.findById(id);
+
+    // Check if the product exists before updating the stock
+    if (!product) {
+        console.warn(`Product with ID ${id} not found. Stock update aborted.`);
+        return; // Exit the function if the product doesn't exist
+    }
+
+    // Deduct the ordered quantity from the product's stock
     product.stock -= quantity;
+
+    // Save the updated product stock without validation
     await product.save({ validateBeforeSave: false });
 }
 

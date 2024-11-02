@@ -10,7 +10,7 @@ mongoose.set('strictQuery', true);
 Define a function to connect to the MongoDB database. This function uses
 the MongoDB URI stored in environment variables to initiate the connection.
 */
-const connectDatabase = () => {
+const connectDB = () => {
     mongoose.connect(process.env.MONGODB_URI, {
         useNewUrlParser: true,       // Recommended parser to handle MongoDB connection strings
         useUnifiedTopology: true,    // Improved connection management
@@ -31,4 +31,4 @@ const connectDatabase = () => {
 
 
 /* Export the connectDatabase function for use in other parts of the application */
-module.exports = connectDatabase;
+module.exports = connectDB;
