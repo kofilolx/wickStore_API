@@ -4,7 +4,7 @@ const SearchFeatures = require('../utils/searchFeatures');
 const ErrorHandler = require('../utils/errorHandler');
 const cloudinary = require('cloudinary');
 
-// Get All Products
+// Get All Listed Products (with search, filter, and pagination)
 exports.getAllProducts = asyncErrorHandler(async (req, res, next) => {
 
     const resultPerPage = 12;
@@ -31,7 +31,7 @@ exports.getAllProducts = asyncErrorHandler(async (req, res, next) => {
     });
 });
 
-// Get All Products ---Product Sliders
+// Get All Products ---Product Sliders Carousel
 exports.getProducts = asyncErrorHandler(async (req, res, next) => {
     const products = await Product.find();
 
@@ -41,7 +41,7 @@ exports.getProducts = asyncErrorHandler(async (req, res, next) => {
     });
 });
 
-// Get Product Details
+// Get Product Details by ID
 exports.getProductDetails = asyncErrorHandler(async (req, res, next) => {
 
     const product = await Product.findById(req.params.id);
@@ -68,7 +68,8 @@ exports.getAdminProducts = asyncErrorHandler(async (req, res, next) => {
 
 // Create Product ---ADMIN
 exports.createProduct = asyncErrorHandler(async (req, res, next) => {
-
+    
+    // Handle images (either a single string or an array of image URLs)
     let images = [];
     if (typeof req.body.images === "string") {
         images.push(req.body.images);
@@ -78,6 +79,7 @@ exports.createProduct = asyncErrorHandler(async (req, res, next) => {
 
     const imagesLink = [];
 
+    // Upload product images to Cloudinary and store the URLs and public_ids
     for (let i = 0; i < images.length; i++) {
         const result = await cloudinary.v2.uploader.upload(images[i], {
             folder: "products",
@@ -89,6 +91,7 @@ exports.createProduct = asyncErrorHandler(async (req, res, next) => {
         });
     }
 
+    // Upload brand logo to Cloudinary and store the URL and public_id
     const result = await cloudinary.v2.uploader.upload(req.body.logo, {
         folder: "brands",
     });
@@ -97,21 +100,29 @@ exports.createProduct = asyncErrorHandler(async (req, res, next) => {
         url: result.secure_url,
     };
 
+    // Attach brand information to the product body
     req.body.brand = {
         name: req.body.brandname,
         logo: brandLogo
-    }
+    };
+    
+    // Assign image links to the product body
     req.body.images = imagesLink;
+
+    // Attach the logged-in user's ID to the product
     req.body.user = req.user.id;
 
+    // Parse and format product specifications
     let specs = [];
     req.body.specifications.forEach((s) => {
-        specs.push(JSON.parse(s))
+        specs.push(JSON.parse(s));
     });
     req.body.specifications = specs;
 
+    // Create the product in the database
     const product = await Product.create(req.body);
 
+    // Respond with the created product and a success message
     res.status(201).json({
         success: true,
         product
