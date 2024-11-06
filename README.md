@@ -133,7 +133,6 @@ nodemon server.js
       "price": 49.99,
       "category": "Category"
     },
-    ...
   ]
 }
 ```
