@@ -1,21 +1,32 @@
-const sendToken = (user, statusCode, res) => {
-    // Generate a JWT token for the user
-    const token = user.getJWTToken();
+const nodemailer = require('nodemailer');
 
-    // Set options for the cookie
-    const options = {
-        expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000), // Cookie expiration date
-        httpOnly: true, // Prevents JavaScript access to the cookie
-        secure: process.env.NODE_ENV === 'production', // Only send cookie over HTTPS in production
-        sameSite: 'Strict', // Helps prevent CSRF attacks
+const sendEmail = async (options) => {
+    // Create the transporter using SMTP settings
+    const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,         // SMTP server hostname
+        port: process.env.SMTP_PORT,         // SMTP server port (usually 587 for TLS)
+        secure: process.env.SMTP_SECURE === 'true', // Set to 'true' for secure connections (TLS)
+        auth: {
+            user: process.env.SMTP_MAIL,     // Your email (SMTP username)
+            pass: process.env.SMTP_PASSWORD, // Your email password (SMTP password)
+        },
+    });
+
+    // Define the email options
+    const mailOptions = {
+        from: process.env.SMTP_MAIL,         // Sender email
+        to: options.email,                   // Recipient email
+        subject: options.subject,            // Email subject
+        html: options.message,               // Email body (HTML)
     };
 
-    // Send response with status code, set the cookie, and return user data along with the token
-    res.status(statusCode).cookie('token', token, options).json({
-        success: true,
-        user,
-        token,
-    });
+    try {
+        // Send the email using the transporter
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email Sent:', info.messageId);
+    } catch (error) {
+        console.error('Error sending email:', error);
+    }
 };
 
-module.exports = sendToken;
+module.exports = sendEmail;
