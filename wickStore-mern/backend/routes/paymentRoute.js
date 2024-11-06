@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const {
-  processStripePayment,
-  processPayPalPayment,
-  sendStripeApiKey,
-  getPaymentStatus
-} = require('../controller/paymentController');
+    processStripePayment,
+    processPayPalPayment,
+    sendStripeApiKey,
+    getPaymentStatus
+  } = require('../controllers/paymentController');
+
 const { isAuthenticatedUser } = require('../middlewares/auth');
 
 // Stripe Payment Route
@@ -20,4 +21,5 @@ router.route('/stripeapikey').get(isAuthenticatedUser, sendStripeApiKey);
 // Payment Status Route
 router.route('/payment/status/:id').get(isAuthenticatedUser, getPaymentStatus);
 
+// module.exports = { processStripePayment, processPayPalPayment, sendStripeApiKey, getPaymentStatus };
 module.exports = router;

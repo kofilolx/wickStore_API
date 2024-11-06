@@ -14,6 +14,7 @@
   "author": "Jigar Sable",
   "license": "ISC",
   "dependencies": {
+    "@paypal/checkout-server-sdk": "^1.0.3",
     "@sendgrid/mail": "^8.1.4",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.1",
@@ -27,7 +28,7 @@
     "mocha": "^10.8.2",
     "mongoose": "^6.13.3",
     "morgan": "^1.10.0",
-    "nodemailer": "^6.7.2",
+    "nodemailer": "^6.9.16",
     "paytmchecksum": "^1.5.0",
     "stripe": "^8.222.0",
     "uuid": "^8.3.2",
@@ -36,6 +37,11 @@
     "yarn": "^1.22.22"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "@eslint/js": "^9.14.0",
+    "eslint": "^9.14.0",
+    "eslint-plugin-react": "^7.37.2",
+    "globals": "^15.12.0",
+    "nodemon": "^3.1.7",
+    "typescript-eslint": "^8.13.0"
   }
 }
